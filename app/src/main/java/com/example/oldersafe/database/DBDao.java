@@ -74,18 +74,48 @@ public class DBDao {
     }
 
     // Search contact list by criteria
-    public ArrayList<Map<String, Object>> getContactData(String name, String type, String flag) {
-        ArrayList<Map<String, Object>> contactList = new ArrayList<>();
-        Cursor cursor = db.query("userinfo", null, "name=? and usertype=? and flag=?", new String[]{name, type, flag}, null, null, null);
-        while (cursor.moveToNext()) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("info_id", cursor.getString(cursor.getColumnIndex("info_id")));
-            map.put("contact", cursor.getString(cursor.getColumnIndex("contact")));
-            map.put("contact_phone", cursor.getString(cursor.getColumnIndex("contact_phone")));
+    public ArrayList<Map<String, Object>> getContactData(String name,String type,String flag) {
+        ArrayList<Map<String, Object>> contactList = new ArrayList<Map<String, Object>>();
+        Cursor cursor = db.query("userinfo", null, "name=? and usertype=? and flag=?", new String[]{name,type,flag}, null, null,null);
 
-            contactList.add(map);
+        int resultCounts = cursor.getCount();
+        if (resultCounts == 0 ) {
+            return null;
+        } else {
+            while (cursor.moveToNext()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("info_id", cursor.getString(cursor.getColumnIndex("info_id")));
+                map.put("contact", cursor.getString(cursor.getColumnIndex("contact")));
+                map.put("contact_phone", cursor.getString(cursor.getColumnIndex("contact_phone")));
+
+                contactList.add(map);
+            }
+            return contactList;
         }
-        return contactList.isEmpty() ? null : contactList;
+    }
+
+    //Retrieve data which meet the criteria
+    public ArrayList<Map<String, Object>> getHelpData(String contact,String state,String flag) {
+        ArrayList<Map<String, Object>> contactList = new ArrayList<Map<String, Object>>();
+        Cursor cursor = db.query("userinfo", null, "contact=? and state=? and flag=?", new String[]{contact,state,flag}, null, null,null);
+        int resultCounts = cursor.getCount();
+        if (resultCounts == 0 ) {
+            return null;
+        } else {
+            while (cursor.moveToNext()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("name", cursor.getString(cursor.getColumnIndex("name")));
+                map.put("phone", cursor.getString(cursor.getColumnIndex("phone")));
+                map.put("address", cursor.getString(cursor.getColumnIndex("address")));
+                map.put("state", cursor.getString(cursor.getColumnIndex("state")));
+                map.put("flag", cursor.getString(cursor.getColumnIndex("flag")));
+                map.put("contact", cursor.getString(cursor.getColumnIndex("contact")));
+                map.put("latitude", cursor.getString(cursor.getColumnIndex("latitude")));
+                map.put("longitude", cursor.getString(cursor.getColumnIndex("longitude")));
+                contactList.add(map);
+            }
+            return contactList;
+        }
     }
 
 
