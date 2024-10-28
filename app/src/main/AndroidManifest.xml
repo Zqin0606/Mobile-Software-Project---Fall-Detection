@@ -22,7 +22,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCCb6YD2pCg8ixCA4L4jaOxohbRjmHFD-4"/>
         <uses-library android:required="true" android:name="com.google.android.maps" />
-        <activity android:name=".activity.RegisterActivity"></activity>
+        <activity android:name=".activity.RegisterActivity"></activity>>
         <activity android:name=".activity.LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -31,7 +31,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity">
 
+        </activity>
     </application>
 
 </manifest>
