@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.oldersafe.MainActivity;
 import com.example.oldersafe.R;
 import com.example.oldersafe.bean.UserBaseInfo;
 import com.example.oldersafe.config.Constants;
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         checkPermission_();
 
-
+        
         name = findViewById(R.id.account);
         psw = findViewById(R.id.psw);
         tvData = findViewById(R.id.data);
@@ -109,7 +110,11 @@ public class LoginActivity extends AppCompatActivity {
             SharedPreferencesUtils.setParam(LoginActivity.this, Constants.User_Type,userBaseInfo.getUserType());
             SharedPreferencesUtils.setParam(LoginActivity.this, Constants.Phone,userBaseInfo.getPhone());
             SharedPreferencesUtils.setParam(LoginActivity.this, Constants.State,userBaseInfo.getState());
+            if(userBaseInfo.getUserType().equals("older")){
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }else{
 
+            }
             finish();
         }
     }

@@ -3,7 +3,6 @@ package com.example.oldersafe.config;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-
 //Define getter and setter for parameters
 public class SharedPreferencesUtils {
     private static final String FILE_NAME = "share_date";
