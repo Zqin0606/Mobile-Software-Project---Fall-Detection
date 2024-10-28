@@ -118,6 +118,26 @@ public class DBDao {
         }
     }
 
+    //add contact person data(Recue Workers)
+    public long addContact(UserBaseInfo o) {
+        ContentValues values = new ContentValues();
+        values.put("info_id", o.infoId);
+        values.put("name", o.userName);
+        values.put("account", o.account);
+        values.put("phone", o.phone);
+        values.put("usertype",o.userType);
+        values.put("flag",o.flag);
+        values.put("contact",o.contact);
+        values.put("contact_phone",o.contactPhone);
+        return db.insert("userinfo", null, values);
+    }
+
+    public long editContact(UserBaseInfo o) {
+        ContentValues values = new ContentValues();
+        values.put("contact",o.contact);
+        values.put("contact_phone",o.contactPhone);
+        return db.update("userinfo", values, "info_id=?",new String[]{o.infoId});
+    }
 
 
 
