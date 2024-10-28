@@ -139,6 +139,43 @@ public class DBDao {
         return db.update("userinfo", values, "info_id=?",new String[]{o.infoId});
     }
 
+    public int updateAddress(String name,String address,String state,double latitude,double longitude){
+        ContentValues value = new ContentValues();
+        value.put("address", address);
+        value.put("state", state);
+        value.put("latitude", latitude);
+        value.put("longitude", longitude);
+        return db.update("userinfo", value, "name=?", new String[]{name});
+    }
+
+    //This function serves to get all data from the elderly
+    public ArrayList<Map<String, Object>> getAllData(String contact,String state,String flag) {
+        ArrayList<Map<String, Object>> contactList = new ArrayList<Map<String, Object>>();
+//        Cursor cursor = db.query("userinfo", null, "contact=? and state=? and flag=?", new String[]{contact,state,flag}, null, null,null);
+        Cursor cursor = db.query("userinfo", null, null, null, null, null,null);
+        int resultCounts = cursor.getCount();
+        if (resultCounts == 0 ) {
+            return null;
+        } else {
+            while (cursor.moveToNext()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("name", cursor.getString(cursor.getColumnIndex("name")));
+                map.put("phone", cursor.getString(cursor.getColumnIndex("phone")));
+                map.put("account", cursor.getString(cursor.getColumnIndex("account")));
+                map.put("psw", cursor.getString(cursor.getColumnIndex("psw")));
+                map.put("address", cursor.getString(cursor.getColumnIndex("address")));
+                map.put("state", cursor.getString(cursor.getColumnIndex("state")));
+                map.put("flag", cursor.getString(cursor.getColumnIndex("flag")));
+                map.put("contact", cursor.getString(cursor.getColumnIndex("contact")));
+                map.put("contact_phone", cursor.getString(cursor.getColumnIndex("contact_phone")));
+                map.put("latitude", cursor.getString(cursor.getColumnIndex("latitude")));
+                map.put("longitude", cursor.getString(cursor.getColumnIndex("longitude")));
+                contactList.add(map);
+            }
+            return contactList;
+        }
+    }
+}
 
 
 
