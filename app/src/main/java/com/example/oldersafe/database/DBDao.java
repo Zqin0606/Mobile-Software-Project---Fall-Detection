@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 public class DBDao {
 
     private Context context;
@@ -71,7 +73,20 @@ public class DBDao {
         return db.insert("userinfo", null, values);
     }
 
+    // Search contact list by criteria
+    public ArrayList<Map<String, Object>> getContactData(String name, String type, String flag) {
+        ArrayList<Map<String, Object>> contactList = new ArrayList<>();
+        Cursor cursor = db.query("userinfo", null, "name=? and usertype=? and flag=?", new String[]{name, type, flag}, null, null, null);
+        while (cursor.moveToNext()) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("info_id", cursor.getString(cursor.getColumnIndex("info_id")));
+            map.put("contact", cursor.getString(cursor.getColumnIndex("contact")));
+            map.put("contact_phone", cursor.getString(cursor.getColumnIndex("contact_phone")));
 
+            contactList.add(map);
+        }
+        return contactList.isEmpty() ? null : contactList;
+    }
 
 
 
