@@ -32,17 +32,25 @@ public class ToLocation {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
+                // Fetch province, city, street info
                 country = address.getCountryName();
                 adminarea = address.getAdminArea();
                 city = address.getLocality();
                 area = address.getSubLocality();
                 through = address.getFeatureName();
-
-                Log.d("AddressInfo", "Retrieved Address: " + country + ", " + adminarea + ", " + city);
+                logAddressInfo();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("AddressError", "Error fetching address: " + e.getMessage());
         }
+    }
+
+    private void logAddressInfo() {
+        Log.d("AddressInfo", "countryName: " + country);
+        Log.d("AddressInfo", "adminArea: " + adminarea);
+        Log.d("AddressInfo", "locality: " + city);
+        Log.d("AddressInfo", "subLocality: " + area);
+        Log.d("AddressInfo", "thoroughfare: " + through);
     }
 
     public String getCountry() {
@@ -51,6 +59,10 @@ public class ToLocation {
 
     public String getAdminarea() {
         return adminarea;
+    }
+
+    public String getArea() {
+        return area;
     }
 
     public String getCity() {
@@ -69,6 +81,9 @@ public class ToLocation {
         return longitude;
     }
 }
+
+
+
 
 
 
