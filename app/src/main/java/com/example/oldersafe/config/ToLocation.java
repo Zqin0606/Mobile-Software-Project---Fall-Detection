@@ -17,6 +17,7 @@ public class ToLocation {
     String country;
     String adminarea;
     String city;
+    String area;
     String through;
 
     public ToLocation(Context context, double latitude, double longitude) {
@@ -31,17 +32,22 @@ public class ToLocation {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
+                // 获取省市区街道信息
                 country = address.getCountryName();
                 adminarea = address.getAdminArea();
                 city = address.getLocality();
+                area = address.getSubLocality();
                 through = address.getFeatureName();
-
+                Log.d("AddressInfo", "countryName: " + country);
+                Log.d("AddressInfo", "adminArea: " + adminarea);
+                Log.d("AddressInfo", "locality: " + city);
+                Log.d("AddressInfo", "thoroughfare: " + through);
             }
         } catch (IOException e) {
-            Log.e("AddressError", "Error fetching address: " + e.getMessage());
+            e.printStackTrace();
+            // 处理异常
         }
     }
-
     public String getCountry() {
         return country;
     }
@@ -49,7 +55,9 @@ public class ToLocation {
     public String getAdminarea() {
         return adminarea;
     }
-
+    public String getArea() {
+        return area;
+    }
     public String getCity() {
         return city;
     }
