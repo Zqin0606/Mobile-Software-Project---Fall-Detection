@@ -15,7 +15,10 @@ public class ToLocation {
     double longitude;
     Geocoder geocoder;
     String country;
+    String adminarea;
     String city;
+    String area;
+    String through;
 
     public ToLocation(Context context, double latitude, double longitude) {
         this.latitude = latitude;
@@ -29,15 +32,16 @@ public class ToLocation {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
-                // Fetching country and city
                 country = address.getCountryName();
+                adminarea = address.getAdminArea();
                 city = address.getLocality();
-                Log.d("AddressInfo", "countryName: " + country);
-                Log.d("AddressInfo", "locality: " + city);
+                area = address.getSubLocality();
+                through = address.getFeatureName();
+
+                Log.d("AddressInfo", "Retrieved Address: " + country + ", " + adminarea + ", " + city);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception
         }
     }
 
@@ -45,8 +49,16 @@ public class ToLocation {
         return country;
     }
 
+    public String getAdminarea() {
+        return adminarea;
+    }
+
     public String getCity() {
         return city;
+    }
+
+    public String getThrough() {
+        return through;
     }
 
     public double getLatitude() {
@@ -57,5 +69,6 @@ public class ToLocation {
         return longitude;
     }
 }
+
 
 
