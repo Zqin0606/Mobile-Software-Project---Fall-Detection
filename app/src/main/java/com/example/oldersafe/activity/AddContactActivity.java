@@ -11,106 +11,94 @@ import android.widget.Toast;
 
 import com.example.oldersafe.R;
 import com.example.oldersafe.bean.UserBaseInfo;
+import com.example.oldersafe.config.Constants;
+import com.example.oldersafe.config.SharedPreferencesUtils;
 import com.example.oldersafe.database.DBDao;
 
 import java.util.UUID;
 
 public class AddContactActivity extends AppCompatActivity {
 
-    EditText name, phone; // Input fields for name and phone
-    Button add; // Button to add or edit contact
-    TextView title; // Title of the activity
-    String method, id; // Mode (add/edit) and contact ID
-
+    EditText name;
+    EditText phone;
+    Button add;
+    String method;
+    TextView title;
+    String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
-
-        // Initialize UI components
         name = findViewById(R.id.name);
         phone = findViewById(R.id.phone);
         add = findViewById(R.id.add);
         title = findViewById(R.id.title);
-
-        // Get mode (add/edit) from intent
         method = getIntent().getStringExtra("type");
-
-        if (method.equals("add")) {
-            setupAddMode(); // Configure for adding a new contact
-        } else {
-            setupEditMode(); // Configure for editing an existing contact
+        if(method.equals("add")){
+            title.setText("Add Rescue Worker");
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    save();
+                }
+            });
+        }else{
+            title.setText("Edit Rescue Worker");
+            id = getIntent().getStringExtra("info_id");
+            String contact = getIntent().getStringExtra("contact");
+            String contact_phone = getIntent().getStringExtra("contact_phone");
+            name.setText(contact);
+            phone.setText(contact_phone);
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    edit();
+                }
+            });
         }
     }
 
-    // Set up Add mode
-    private void setupAddMode() {
-        title.setText("Add Rescue Worker"); // Set title
-
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                save(); // Save contact
-            }
-        });
-    }
-
-    // Set up Edit mode
-    private void setupEditMode() {
-        title.setText("Edit Rescue Worker"); // Set title
-
-        // Retrieve contact details from intent
-        id = getIntent().getStringExtra("info_id");
-        name.setText(getIntent().getStringExtra("contact"));
-        phone.setText(getIntent().getStringExtra("contact_phone"));
-
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                edit(); // Edit contact
-            }
-        });
-    }
-
-    // Save new contact to the database
     private void save() {
-        DBDao dao = new DBDao(getApplicationContext());
+        DBDao dao=new DBDao(getApplicationContext());
         dao.open();
+        String name1 = (String) SharedPreferencesUtils.getParam(AddContactActivity.this, Constants.User_Name, "00");
+        String User_Type = (String) SharedPreferencesUtils.getParam(AddContactActivity.this, Constants.User_Type, "00");
+        String Phone = (String) SharedPreferencesUtils.getParam(AddContactActivity.this, Constants.Phone, "00");
 
-        UserBaseInfo userInfo = new UserBaseInfo();
-        userInfo.setInfoId(UUID.randomUUID().toString());
-        userInfo.setContact(name.getText().toString());
-        userInfo.setContactPhone(phone.getText().toString());
-
-        long result = dao.addContact(userInfo);
+        UserBaseInfo userBaseInfo = new UserBaseInfo();
+        userBaseInfo.setPhone(Phone);
+        userBaseInfo.setFlag("2");
+        userBaseInfo.setUserType(User_Type);
+        userBaseInfo.setInfoId(String.valueOf(UUID.randomUUID()));
+        userBaseInfo.setUserName(name1);
+        userBaseInfo.setContact(name.getText().toString());
+        userBaseInfo.setContactPhone(phone.getText().toString());
+        long result = dao.addContact(userBaseInfo);
         dao.close();
-
         if (result > 0) {
-            Toast.makeText(this, "Contact added successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "add success", Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            Toast.makeText(this, "Failed to add contact", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "add failure", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // Edit existing contact
     private void edit() {
-        DBDao dao = new DBDao(getApplicationContext());
+        DBDao dao=new DBDao(getApplicationContext());
         dao.open();
 
-        UserBaseInfo userInfo = new UserBaseInfo();
-        userInfo.setInfoId(id);
-        userInfo.setContact(name.getText().toString());
-        userInfo.setContactPhone(phone.getText().toString());
-
-        long result = dao.editContact(userInfo);
+        UserBaseInfo userBaseInfo = new UserBaseInfo();
+        userBaseInfo.setInfoId(id);
+        userBaseInfo.setContact(name.getText().toString());
+        userBaseInfo.setContactPhone(phone.getText().toString());
+        long result = dao.editContact(userBaseInfo);
         dao.close();
-
         if (result > 0) {
-            Toast.makeText(this, "Contact edited successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "edit success", Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            Toast.makeText(this, "Failed to edit contact", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "edit failure", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

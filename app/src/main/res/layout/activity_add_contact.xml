@@ -1,77 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@android:color/white">
-
-    <TextView
-        android:id="@+id/title"
+    android:background="@color/grey_light"
+    tools:context=".activity.AddContactActivity">
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Rescue Worker"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="24dp" />
-
+        android:background="@color/blue"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:textColor="@color/white"
+            android:text="Add Rescue Worker" />
+    </androidx.appcompat.widget.Toolbar>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="12dp">
-
-        <TextView
-            android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:alpha="0.9"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/bg_ll">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Name:"
-            android:textSize="16sp"
-            android:padding="8dp" />
-
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="0dp"
+            android:padding="10dp"
+            android:alpha="0.7"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:text="Rescue Worker Name："/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:id="@+id/name"
+                android:textSize="16dp"
+                android:hint="please input"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="Enter Name"
-            android:textSize="16sp"
-            android:padding="8dp" />
+            android:padding="@dimen/dp_10"
+            android:alpha="0.7"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:text="Rescue Worker Phone Number："/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="16dp"
+                android:id="@+id/phone"
+                android:hint="please input"/>
+        </LinearLayout>
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/white"
+            android:text="save"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:id="@+id/add" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="24dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Phone:"
-            android:textSize="16sp"
-            android:padding="8dp" />
-
-        <EditText
-            android:id="@+id/phone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="Enter Phone Number"
-            android:textSize="16sp"
-            android:padding="8dp"
-            android:inputType="phone" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:textSize="16sp"
-        android:layout_gravity="center_horizontal"
-        android:backgroundTint="@android:color/holo_blue_light" />
-
 </LinearLayout>
