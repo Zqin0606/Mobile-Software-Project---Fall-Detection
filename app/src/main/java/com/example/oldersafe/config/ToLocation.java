@@ -32,7 +32,6 @@ public class ToLocation {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
-                // 获取省市区街道信息
                 country = address.getCountryName();
                 adminarea = address.getAdminArea();
                 city = address.getLocality();
@@ -45,7 +44,6 @@ public class ToLocation {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            // 处理异常
         }
     }
     public String getCountry() {
