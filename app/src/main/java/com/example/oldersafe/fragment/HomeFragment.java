@@ -348,7 +348,28 @@ public class HomeFragment extends Fragment implements SensorEventListener,Google
             process = false;
         }
     }
-
+    private void sendSms() {
+        DBDao dao=new DBDao(getContext());
+        dao.open();
+        String name = (String) SharedPreferencesUtils.getParam(getContext(), Constants.User_Name, "00");
+        latitude = Double.parseDouble(lat.getText().toString());
+        longitude = Double.parseDouble(longg.getText().toString());
+        dao.updateAddress(name,position.getText().toString(),"2",latitude,longitude);
+        String User_Type = (String) SharedPreferencesUtils.getParam(getContext(), Constants.User_Type, "00");
+        ArrayList<Map<String, Object>> contactData = dao.getContactData(name,User_Type,"2");
+        dao.close();
+        SmsManager smsManager = SmsManager.getDefault();
+        String message = name + " fall down! "+" ask for your help, in " +
+                "latitude: " + latitude + "\n" +
+                "longitude: " +longitude + "\n" +
+                position.getText().toString();
+        if(contactData == null) return;
+        for (int i=0;i<contactData.size();i++){
+            Map<String,Object> map = contactData.get(i);
+            String phoneNumber = (String) map.get("contact_phone");
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+        }
+    }
 
 }
 
